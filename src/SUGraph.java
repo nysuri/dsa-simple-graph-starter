@@ -6,61 +6,108 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
     private final Map<V, Set<V>> neighbours = new HashMap<>();
 
     public static class Builder<V extends Identifiable<ID>, ID> implements SimpleGraphBuilder<V, ID> {
-        // TODO: implement builder methods..
+        private final SUGraph<V,ID> suGraph = new SUGraph<>();
+
+        @Override
+        public SimpleGraphBuilder<V, ID> addVertices(V... vertices) {
+            for (V vertex : vertices) {
+                this.suGraph.addVertex(vertex);
+            }
+            return this;
+        }
+
+        @Override
+        public SimpleGraphBuilder<V, ID> addEdges(V vertex, V... neighbours) {
+            for (V neighbour : neighbours) {
+                this.suGraph.addEdge(vertex, neighbour);
+            }
+            return this;
+        }
+
+        @Override
+        public SimpleGraphBuilder<V, ID> addEdges(ID vertexId, ID... neighbourIds) {
+            V vertex = this.suGraph.vertices.get(vertexId);
+            for (ID neighbourId : neighbourIds) {
+                V neighbour = this.suGraph.vertices.get(neighbourId);
+                this.suGraph.addEdge(vertex, neighbour);
+            }
+            return this;
+        }
+
+        @Override
+        public SimpleGraph<V, ID> build() {
+            return suGraph;
+        }
     }
 
     // TODO
     @Override
     public boolean addVertex(V vertex) {
+        if (this.vertices.putIfAbsent(vertex.getId(), vertex) == null) {
+            this.neighbours.put(vertex, new HashSet<>());
+            return true;
+        }
         return false;
     }
 
     // TODO
     @Override
     public V getVertex(ID id) {
-        return null;
+        return vertices.get(id);
     }
 
     // TODO
     @Override
     public boolean addEdge(V vertex1, V vertex2) {
-        return false;
+        Set<V> neighbours1 = this.neighbours.get(vertex1);
+        Set<V> neighbours2 = this.neighbours.get(vertex2);
+
+        if (neighbours1 == null || neighbours2 == null) {
+            return false;
+        }
+
+        return neighbours1.add(vertex2) && neighbours2.add(vertex1);
     }
 
     // TODO
     @Override
     public boolean addEdge(ID vertexId1, ID vertexId2) {
-        return false;
+        V vertex1 = this.vertices.get(vertexId1);
+        V vertex2 = this.vertices.get(vertexId2);
+        return this.addEdge(vertex1, vertex2);
     }
 
     // TODO
     @Override
     public Collection<V> getVertices() {
-        return List.of();
+        return vertices.values();
     }
 
     // TODO
     @Override
     public Collection<V> getNeighbours(V vertex) {
-        return List.of();
+        return neighbours.get(vertex);
     }
 
     // TODO
     @Override
     public Collection<V> getNeighbours(ID vertexId) {
-        return List.of();
+        V vertex = getVertex(vertexId);
+        return getNeighbours(vertex);
     }
 
     // TODO
     @Override
     public int getNumVertices() {
-        return 0;
+        return vertices.size();
     }
 
     // TODO
     @Override
     public int getNumEdges() {
-        return 0;
+        return neighbours.values().stream()
+                .mapToInt(Set::size)
+                .sum();
     }
 
     @Override
