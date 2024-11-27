@@ -14,4 +14,9 @@ public class Vertex implements Identifiable<String>, Comparable<Vertex> {
     public int compareTo(Vertex o) {
         return name.compareTo(o.name);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
