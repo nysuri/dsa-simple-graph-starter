@@ -4,6 +4,29 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
     private final Map<ID, V> vertices = new HashMap<>();
     private final Map<V, Set<V>> neighbours = new HashMap<>();
 
+    public static class Builder<V extends Identifiable<ID>, ID> implements SimpleGraphBuilder<V, ID> {
+
+        @Override
+        public SimpleGraphBuilder<V, ID> addVertices(V... vertices) {
+            return null;
+        }
+
+        @Override
+        public SimpleGraphBuilder<V, ID> addEdges(V vertex, V... neighbours) {
+            return null;
+        }
+
+        @Override
+        public SimpleGraphBuilder<V, ID> addEdges(ID vertexId, ID... neighbourIds) {
+            return null;
+        }
+
+        @Override
+        public SimpleGraph<V, ID> build() {
+            return null;
+        }
+    }
+
 
     @Override
     public boolean addVertex(V vertex) {
