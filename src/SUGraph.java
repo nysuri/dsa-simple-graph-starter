@@ -5,6 +5,8 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
     private final Map<V, Set<V>> neighbours = new HashMap<>();
 
     public static class Builder<V extends Identifiable<ID>, ID> implements SimpleGraphBuilder<V, ID> {
+        // create a num graph under construction
+        private final SUGraph<V,ID> suGraph = new SUGraph<>();
 
         @Override
         public SimpleGraphBuilder<V, ID> addVertices(V... vertices) {
