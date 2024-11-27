@@ -73,7 +73,10 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
 
     @Override
     public int getNumEdges() {
-        return 0;
+        return this.neighbours.values().stream()
+                .mapToInt(Set::size)
+                .sum();
+
     }
 
     @Override
@@ -85,7 +88,20 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
 
     @Override
     public boolean isConnected() {
-        return false;
+        V vertex = this.getVertices().stream().findAny().orElse(null);
+        return vertex != null &&
+                this.countConnected(vertex, new HashSet<>()) == this.getNumVertices();
+
+    }
+
+    private int countConnected(V intermediate, Set<V> visited) {
+        if (visited.contains(intermediate)) return 0;
+        visited.add(intermediate);
+        int count = 1;
+        for (V neighbour : this.getNeighbours(intermediate)) {
+            count += countConnected(neighbour, visited);
+        }
+        return count;
     }
 
     @Override
