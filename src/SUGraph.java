@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, ID> {
     private final Map<ID, V> vertices = new HashMap<>();
@@ -77,11 +78,19 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
 
     @Override
     public String getAdjacencyReport() {
-        return "";
+        return this.getVertices().stream()
+                .map(v -> v.getId().toString() + ": " + this.getNeighbours(v).toString())
+                .collect(Collectors.joining("\n", "", ""));
     }
 
     @Override
     public boolean isConnected() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("SUGraph with %d vertices and %d neighbour connections",
+                this.getNumVertices(), this.getNumEdges());
     }
 }
