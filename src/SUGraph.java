@@ -6,30 +6,7 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
     private final Map<V, Set<V>> neighbours = new HashMap<>();
 
     public static class Builder<V extends Identifiable<ID>, ID> implements SimpleGraphBuilder<V, ID> {
-        // create a num graph under construction
-        private final SUGraph<V,ID> suGraph = new SUGraph<>();
-
-
         // TODO: implement builder methods..
-        @Override
-        public SimpleGraphBuilder<V, ID> addVertices(V... vertices) {
-            return null;
-        }
-
-        @Override
-        public SimpleGraphBuilder<V, ID> addEdges(V vertex, V... neighbours) {
-            return null;
-        }
-
-        @Override
-        public SimpleGraphBuilder<V, ID> addEdges(ID vertexId, ID... neighbourIds) {
-            return null;
-        }
-
-        @Override
-        public SimpleGraph<V, ID> build() {
-            return null;
-        }
     }
 
     // TODO
@@ -74,17 +51,16 @@ public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, I
         return List.of();
     }
 
+    // TODO
     @Override
     public int getNumVertices() {
-        return vertices.size();
+        return 0;
     }
 
+    // TODO
     @Override
     public int getNumEdges() {
-        return this.neighbours.values().stream()
-                .mapToInt(Set::size)
-                .sum();
-
+        return 0;
     }
 
     @Override
