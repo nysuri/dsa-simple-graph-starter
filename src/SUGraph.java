@@ -1,7 +1,10 @@
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class SUGraph<V extends Identifiable<ID>, ID> implements SimpleGraph<V, ID> {
+    private final Map<ID, V> vertices = new HashMap<>();
+    private final Map<V, Set<V>> neighbours = new HashMap<>();
+
+
     @Override
     public boolean addVertex(V vertex) {
         return false;
